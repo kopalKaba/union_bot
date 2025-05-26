@@ -1,19 +1,16 @@
 {
   "wallets": [
     {
-      "name": "Wallet1",
-      "privatekey": "pk1",
-      "babylonAddress": "bbnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      "name": "your_wallet_name1",
+	  "userId": "your_id_on_union_dashboard1",
+      "privatekey": "your_private_key1",
+      "babylonAddress": "your_babylon_address1"
     },
 	{
-      "name": "Wallet2",
-      "privatekey": "pk2",
-      "babylonAddress": "bbnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    },
-	{
-      "name": "Wallet3",
-      "privatekey": "pk3",
-      "babylonAddress": "bbnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      "name": "your_wallet_name2",
+	  "userId": "your_id_on_union_dashboard2",
+      "privatekey": "your_private_key2",
+      "babylonAddress": "your_babylon_address2"
     }
   ]
 }

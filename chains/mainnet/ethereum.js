@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { JsonRpcProvider } = require('ethers');
 
 const rpcProviders = [  

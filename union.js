@@ -59,10 +59,11 @@ async function askMaxTransaction() {
   return isNaN(value) || value <= 0 ? 1 : value;
 }
 
-async function selectTransactionType() {
+async function selectMenu() {
   const types = {
     1: { label: "Sepolia → Babylon", method: service.sepoliaBabylon },
     2: { label: "Sepolia → Holesky", method: service.sepoliaHolesky },
+    3: { label: "Check Profile Stats", method: service.checkPoint },
     0: { label: "All", method: null }
   };
 
@@ -74,14 +75,14 @@ async function selectTransactionType() {
   let input = await askQuestion("Enter number of transaction type (e.g., 1 or 0 for all): ");
   const choice = parseInt(input);
   if (isNaN(choice) || !types[choice]) {
-    console.log("Invalid input. Using default (Holesky → Babylon).");
+    console.log("Invalid input. Using default (Sepolia → Babylon).");
     return [types[1]];
   }
 
   return choice === 0 ? Object.values(types).filter(t => t.method !== null) : [types[choice]];
 }
 
-async function runTransactionParallel() {
+async function runUnion() {
   etc.header();
 
   const walletData = JSON.parse(fs.readFileSync(path.join(__dirname, "./wallet.json"), "utf8"));
@@ -89,22 +90,26 @@ async function runTransactionParallel() {
 
   const selectedWallets = await selectWallets(wallets);
   global.selectedWallets = selectedWallets;
-
-  const maxTransaction = await askMaxTransaction();
-  global.maxTransaction = maxTransaction;
-
-  const transactionTypes = await selectTransactionType();
-
+  const menuTypes = await selectMenu();
+  const requiresTransactionCount = menuTypes.some(
+    t => t.label !== "Check Profile Stats"
+  );
+  if (requiresTransactionCount) {
+    const maxTransaction = await askMaxTransaction();
+    global.maxTransaction = maxTransaction;
+  } else {
+    global.maxTransaction = 1;
+  }
   rl.close();
 
-  for (const tx of transactionTypes) {
-    console.log(`[${etc.timelog()}] Executing transaction: ${tx.label}`);
+  for (const tx of menuTypes) {
+    console.log(`Executing transaction: ${tx.label}`);
     try {
       await tx.method();
     } catch (error) {
-      console.error(`[${etc.timelog()}] Error in ${tx.label}: ${error.message}`);
+      console.error(`Error in ${tx.label}: ${error.message}`);
     }
   }
 }
 
-runTransactionParallel();
+runUnion();

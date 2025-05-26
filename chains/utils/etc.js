@@ -80,7 +80,7 @@ function utility(fileName) {
 }
 
 function timelog() {
-  return moment().tz('Asia/Jakarta').format('HH:mm:ss | DD-MM-YYYY');
+  return moment().format('HH:mm:ss | DD-MM-YYYY');
 }
 function countdown(durationMs, message) {
   return new Promise((resolve) => {
@@ -96,7 +96,7 @@ function countdown(durationMs, message) {
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
       process.stdout.write(
-        `\r${message}: ${hours}h ${minutes}m ${seconds}s remaining... `
+        `\r${message}: ${hours}h ${minutes}m ${seconds}s`
       );
 
       if (remainingTime <= 0) {
@@ -108,30 +108,10 @@ function countdown(durationMs, message) {
   });
 }
 const unionUrl = 'https://app.union.build/explorer';
-const babylonUrl = 'https://testnet.babylon.explorers.guru';
-const xionUrl = 'https://testnet.xion.explorers.guru';
 const union = {
 	get tx() {
 		return (txHash) => `${unionUrl}/transfers/${txHash}`;
 		}
 	};
 	
-const babylon = {
-	get tx() {
-		return (txHash) => `${babylonUrl}/transaction/${txHash}`;
-		},
-	get address() {
-		return (address) => `${babylonUrl}/account/${address}`;
-		}
-	};
-	
-const xion = {
-	get tx() {
-		return (txHash) => `${xionUrl}/transaction/${txHash}`;
-		},
-	get address() {
-		return (address) => `${xionUrlxionUrl}/account/${address}`;
-		}
-	};
-	
-module.exports = { delay, header, loadingAnimation, utility, timelog, countdown, xion, babylon, union };
+module.exports = { delay, header, loadingAnimation, utility, timelog, countdown, union };
