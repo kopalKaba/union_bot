@@ -210,9 +210,8 @@ async function checkPoint() {
         console.error(`❌ ${etc.timelog()} | ${name} | Unexpected Error: ${err.message}`);
       }
     }
+    await etc.countdown(10000, "Countdown");
   }
-
-  await etc.countdown(10000, "Countdown");
 }
 
 module.exports = { 
